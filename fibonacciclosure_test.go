@@ -3,7 +3,7 @@ package tour
 import "testing"
 
 func TestFibonacci(t *testing.T) {
-	fib := []int{0, 1, 1, 2, 3, 5}
+	fib := []int{0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55}
 
 	f := Fibonacci()
 	for i, want := range fib {
