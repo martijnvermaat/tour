@@ -1,3 +1,5 @@
+// https://tour.golang.org/moretypes/15
+
 package tour
 
 func Pic(dx, dy int) [][]uint8 {

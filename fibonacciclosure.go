@@ -1,3 +1,5 @@
+// https://tour.golang.org/moretypes/23
+
 package tour
 
 func Fibonacci() func() int {

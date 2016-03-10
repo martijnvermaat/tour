@@ -1,3 +1,5 @@
+// https://tour.golang.org/moretypes/20
+
 package tour
 
 import "strings"

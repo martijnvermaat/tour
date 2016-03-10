@@ -1,3 +1,5 @@
+// https://tour.golang.org/flowcontrol/8
+
 package tour
 
 import "math"
