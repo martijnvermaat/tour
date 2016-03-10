@@ -31,7 +31,15 @@ func main() {
 		} else {
 			fmt.Printf("Could not parse %q as int\n", os.Args[2])
 		}
+	case "ipaddr":
+		hosts := map[string]tour.IPAddr{
+			"loopback":  {127, 0, 0, 1},
+			"googleDNS": {8, 8, 8, 8},
+		}
+		for name, ip := range hosts {
+			fmt.Printf("%v: %v\n", name, ip)
+		}
 	default:
-		fmt.Println("Available subcommands: sqrt, pic, wc, fib")
+		fmt.Println("Available subcommands: sqrt, pic, wc, fib, ipaddr")
 	}
 }

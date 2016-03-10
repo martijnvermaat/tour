@@ -4,7 +4,7 @@ import "testing"
 
 func TestWordCount(t *testing.T) {
 	ok := true
-	for _, c := range testCases {
+	for _, c := range wordCountTests {
 		got := WordCount(c.in)
 		if len(c.want) != len(got) {
 			ok = false
@@ -23,7 +23,7 @@ func TestWordCount(t *testing.T) {
 	}
 }
 
-var testCases = []struct {
+var wordCountTests = []struct {
 	in   string
 	want map[string]int
 }{
