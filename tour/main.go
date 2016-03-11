@@ -25,6 +25,11 @@ func doHelp() {
 }
 
 func doSqrt() {
+	if len(os.Args) != 3 {
+		fmt.Println("Please provide a floating point number")
+		return
+	}
+
 	if n, err := strconv.ParseFloat(os.Args[2], 64); err == nil {
 		fmt.Printf("%f\n", tour.Sqrt(n))
 	} else {
@@ -42,6 +47,11 @@ func doWordCount() {
 }
 
 func doFibonacci() {
+	if len(os.Args) != 3 {
+		fmt.Println("Please provide the number of Fibonacci numbers to print")
+		return
+	}
+
 	if n, err := strconv.Atoi(os.Args[2]); err == nil {
 		f := tour.Fibonacci()
 		for i := 0; i < n; i++ {
@@ -63,9 +73,11 @@ func doIPAddr() {
 }
 
 func main() {
-	if fn, ok := dispatch[os.Args[1]]; ok {
-		fn()
-	} else {
+	if len(os.Args) < 2 {
 		doHelp()
+	} else if fn, ok := dispatch[os.Args[1]]; !ok {
+		doHelp()
+	} else {
+		fn()
 	}
 }
