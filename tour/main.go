@@ -9,37 +9,63 @@ import (
 	"strconv"
 )
 
+var dispatch = map[string]func(){
+	"sqrt":   doSqrt,
+	"pic":    doPic,
+	"wc":     doWordCount,
+	"fib":    doFibonacci,
+	"ipaddr": doIPAddr,
+}
+
+func doHelp() {
+	fmt.Println("Available subcommands:")
+	for command := range dispatch {
+		fmt.Printf("  %s\n", command)
+	}
+}
+
+func doSqrt() {
+	if n, err := strconv.ParseFloat(os.Args[2], 64); err == nil {
+		fmt.Printf("%f\n", tour.Sqrt(n))
+	} else {
+		fmt.Printf("Could not parse %q as float64\n", os.Args[2])
+	}
+}
+
+func doPic() {
+	pic.Show(tour.Pic)
+}
+
+func doWordCount() {
+	b, _ := ioutil.ReadAll(os.Stdin)
+	fmt.Println(tour.WordCount(string(b)))
+}
+
+func doFibonacci() {
+	if n, err := strconv.Atoi(os.Args[2]); err == nil {
+		f := tour.Fibonacci()
+		for i := 0; i < n; i++ {
+			fmt.Println(f())
+		}
+	} else {
+		fmt.Printf("Could not parse %q as int\n", os.Args[2])
+	}
+}
+
+func doIPAddr() {
+	hosts := map[string]tour.IPAddr{
+		"loopback":  {127, 0, 0, 1},
+		"googleDNS": {8, 8, 8, 8},
+	}
+	for name, ip := range hosts {
+		fmt.Printf("%v: %v\n", name, ip)
+	}
+}
+
 func main() {
-	switch os.Args[1] {
-	case "sqrt":
-		if n, err := strconv.ParseFloat(os.Args[2], 64); err == nil {
-			fmt.Printf("%f\n", tour.Sqrt(n))
-		} else {
-			fmt.Printf("Could not parse %q as float64\n", os.Args[2])
-		}
-	case "pic":
-		pic.Show(tour.Pic)
-	case "wc":
-		b, _ := ioutil.ReadAll(os.Stdin)
-		fmt.Println(tour.WordCount(string(b)))
-	case "fib":
-		if n, err := strconv.Atoi(os.Args[2]); err == nil {
-			f := tour.Fibonacci()
-			for i := 0; i < n; i++ {
-				fmt.Println(f())
-			}
-		} else {
-			fmt.Printf("Could not parse %q as int\n", os.Args[2])
-		}
-	case "ipaddr":
-		hosts := map[string]tour.IPAddr{
-			"loopback":  {127, 0, 0, 1},
-			"googleDNS": {8, 8, 8, 8},
-		}
-		for name, ip := range hosts {
-			fmt.Printf("%v: %v\n", name, ip)
-		}
-	default:
-		fmt.Println("Available subcommands: sqrt, pic, wc, fib, ipaddr")
+	if fn, ok := dispatch[os.Args[1]]; ok {
+		fn()
+	} else {
+		doHelp()
 	}
 }
