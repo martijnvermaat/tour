@@ -16,6 +16,7 @@ var dispatch = map[string]func(){
 	"fib":    doFibonacci,
 	"ipaddr": doIPAddr,
 	"sqrt2":  doSqrt2,
+	"read":   doMyReader,
 }
 
 func doHelp() {
@@ -87,6 +88,14 @@ func doSqrt2() {
 		}
 	} else {
 		fmt.Printf("Could not parse %q as float64\n", os.Args[2])
+	}
+}
+
+func doMyReader() {
+	b := make([]byte, 72)
+	for {
+		tour.MyReader{}.Read(b)
+		fmt.Println(string(b))
 	}
 }
 
