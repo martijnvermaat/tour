@@ -15,6 +15,7 @@ var dispatch = map[string]func(){
 	"wc":     doWordCount,
 	"fib":    doFibonacci,
 	"ipaddr": doIPAddr,
+	"sqrt2":  doSqrt2,
 }
 
 func doHelp() {
@@ -69,6 +70,23 @@ func doIPAddr() {
 	}
 	for name, ip := range hosts {
 		fmt.Printf("%v: %v\n", name, ip)
+	}
+}
+
+func doSqrt2() {
+	if len(os.Args) != 3 {
+		fmt.Println("Please provide a floating point number")
+		return
+	}
+
+	if n, err := strconv.ParseFloat(os.Args[2], 64); err == nil {
+		if sqrt, err := tour.Sqrt2(n); err == nil {
+			fmt.Printf("%f\n", sqrt)
+		} else {
+			fmt.Println(err)
+		}
+	} else {
+		fmt.Printf("Could not parse %q as float64\n", os.Args[2])
 	}
 }
 
