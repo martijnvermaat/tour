@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/martijnvermaat/tour"
 	"golang.org/x/tour/pic"
+	"io"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -17,6 +18,7 @@ var dispatch = map[string]func(){
 	"ipaddr": doIPAddr,
 	"sqrt2":  doSqrt2,
 	"read":   doMyReader,
+	"rot13":  doRot13Reader,
 }
 
 func doHelp() {
@@ -97,6 +99,10 @@ func doMyReader() {
 		tour.MyReader{}.Read(b)
 		fmt.Println(string(b))
 	}
+}
+
+func doRot13Reader() {
+	io.Copy(os.Stdout, tour.Rot13Reader{R: os.Stdin})
 }
 
 func main() {
