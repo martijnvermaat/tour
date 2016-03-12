@@ -3,9 +3,9 @@
 package tour
 
 func Fibonacci() func() int {
-	f0, f1 := -1, 1
+	x, y := 0, 1
 	return func() int {
-		f0, f1 = f1, f0+f1
-		return f1
+		defer func() { x, y = y, x+y }()
+		return x
 	}
 }
