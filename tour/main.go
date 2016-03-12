@@ -107,7 +107,7 @@ func doRot13Reader() {
 }
 
 func doImage() {
-	pic.ShowImage(tour.Image{100, 100})
+	pic.ShowImage(tour.Image{X: 100, Y: 100})
 }
 
 func main() {
