@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/martijnvermaat/tour"
 	"golang.org/x/tour/pic"
+	"golang.org/x/tour/tree"
 	"io"
 	"io/ioutil"
 	"os"
@@ -20,6 +21,7 @@ var dispatch = map[string]func(){
 	"read":   doMyReader,
 	"rot13":  doRot13Reader,
 	"image":  doImage,
+	"trees":  doTrees,
 }
 
 func doHelp() {
@@ -108,6 +110,16 @@ func doRot13Reader() {
 
 func doImage() {
 	pic.ShowImage(tour.Image{X: 100, Y: 100})
+}
+
+func doTrees() {
+	t1, t2 := tree.New(4), tree.New(4)
+
+	if tour.Same(t1, t2) {
+		fmt.Println("Binary trees t1 and t2 are equivalent :)")
+	} else {
+		fmt.Println("Binary trees t1 and t2 are not equivalent :x")
+	}
 }
 
 func main() {
