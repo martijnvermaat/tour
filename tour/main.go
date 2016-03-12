@@ -19,6 +19,7 @@ var dispatch = map[string]func(){
 	"sqrt2":  doSqrt2,
 	"read":   doMyReader,
 	"rot13":  doRot13Reader,
+	"image":  doImage,
 }
 
 func doHelp() {
@@ -103,6 +104,10 @@ func doMyReader() {
 
 func doRot13Reader() {
 	io.Copy(os.Stdout, tour.Rot13Reader{R: os.Stdin})
+}
+
+func doImage() {
+	pic.ShowImage(tour.Image{100, 100})
 }
 
 func main() {
