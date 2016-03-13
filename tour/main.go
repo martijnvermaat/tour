@@ -22,6 +22,7 @@ var dispatch = map[string]func(){
 	"rot13":  doRot13Reader,
 	"image":  doImage,
 	"trees":  doTrees,
+	"crawl":  doCrawl,
 }
 
 func doHelp() {
@@ -120,6 +121,62 @@ func doTrees() {
 	} else {
 		fmt.Println("Binary trees t1 and t2 are not equivalent :x")
 	}
+}
+
+func doCrawl() {
+	sites := tour.Crawl("http://golang.org/", 4, fetcher)
+	for url, body := range sites {
+		fmt.Printf("Site body for %s: %q\n", url, body)
+	}
+}
+
+type fakeFetcher map[string]*fakeResult
+
+type fakeResult struct {
+	body string
+	urls []string
+}
+
+func (f fakeFetcher) Fetch(url string) (string, []string, error) {
+	fmt.Printf("Fetching %s\n", url)
+	if res, ok := f[url]; ok {
+		return res.body, res.urls, nil
+	}
+	fmt.Printf("-> not found: %s\n", url)
+	return "", nil, fmt.Errorf("not found: %s", url)
+}
+
+var fetcher = fakeFetcher{
+	"http://golang.org/": &fakeResult{
+		"The Go Programming Language",
+		[]string{
+			"http://golang.org/pkg/",
+			"http://golang.org/cmd/",
+		},
+	},
+	"http://golang.org/pkg/": &fakeResult{
+		"Packages",
+		[]string{
+			"http://golang.org/",
+			"http://golang.org/cmd/",
+			"http://golang.org/pkg/fmt/",
+			"http://golang.org/pkg/os/",
+		},
+	},
+	"http://golang.org/pkg/fmt/": &fakeResult{
+		"Package fmt",
+		[]string{
+			"http://golang.org/",
+			"http://golang.org/pkg/",
+		},
+	},
+	"http://golang.org/pkg/os/": &fakeResult{
+		"Package os",
+		[]string{
+			"http://golang.org/",
+			"http://golang.org/pkg/",
+		},
+	},
 }
 
 func main() {
